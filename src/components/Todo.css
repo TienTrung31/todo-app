@@ -1,0 +1,28 @@
+.custom-input {
+    border: 1px solid #06b6d4;
+    /* Cyan border color */
+    padding: 0.5rem;
+    /* Padding */
+    font-size: 20px;
+    margin-right: 0.5rem;
+    /* Right margin */
+    margin-bottom: 1.25rem;
+    /* Bottom margin */
+    border-radius: 0.5rem;
+    /* Rounded corners */
+    width: 100%;
+    /* Full width */
+    transition: all 0.3s ease-in-out;
+    /* Smooth transition */
+}
+
+.custom-input:focus {
+    outline: none;
+    /* Remove default outline */
+    ring-color: transparent;
+    /* Remove default ring */
+    border-color: transparent;
+    /* Remove border color */
+    box-shadow: 0 0 0 2px #06b6d4;
+    /* Add cyan focus ring */
+}
