@@ -5,7 +5,7 @@ export const FETCH_TODOS = 'FETCH_TODOS'
 export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS';
 export const FETCH_TODOS_FAILURE = 'FETCH_TODOS_FAILURE';
 
-export const addTodo = (text) => ({ type: ADD_TODO, payload: text });
+export const addTodo = (todo) => ({ type: ADD_TODO, payload: todo });
 export const deleteTodo = (id) => ({ type: DELETE_TODO, payload: id });
 export const toggleTodo = (id) => ({ type: TOGGLE_TODO, payload: id });
 export const fetchTodos = () => ({ type: FETCH_TODOS });

@@ -11,8 +11,7 @@ const todoReducer = (state = initialState, action) => {
                 ...state,
                 todos: [...state.todos, {
                     id: Date.now(),
-                    text: action.payload,
-                    complete: false
+                    ...action.payload
                 }]
             };
 
