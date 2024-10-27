@@ -16,16 +16,18 @@ const Todo = () => {
     }, [dispatch]);
 
     return (
-        <div className="relative h-930px w-430px">
-            <div className="container mx-auto p-4">
-                <h1 className="text-3xl font-bold mb-4">Todo App</h1>
+        <div>
+            <div className="relative h-[930px] w-[430px]">
+                <div className="container mx-auto p-4">
+                    {currentView === 'create' && <CreateTodo />}
+                    {currentView === 'home' && <Home />}
+                    {currentView === 'list' && <TodoList />}
 
-                {currentView === 'home' && <Home />}
-                {currentView === 'create' && <CreateTodo />}
-                {currentView === 'list' && <TodoList />}
-
+                </div>
+                <div className="fixed bottom-0 left-0 right-0 w-[430px] bg-white border rounded-t-[40px]">
+                    <Navigation currentView={currentView} setCurrentView={setCurrentView} />
+                </div>
             </div>
-            <Navigation setCurrentView={setCurrentView} />
         </div>
     );
 };

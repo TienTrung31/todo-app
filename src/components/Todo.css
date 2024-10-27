@@ -11,14 +11,16 @@
 
 .custom-input:focus {
     outline: none;
-    ring-color: transparent;
     border-color: transparent;
     box-shadow: 0 0 0 2px #06b6d4;
 }
 
 .home-nav,
 .create-nav,
-.list-nav {
+.list-nav,
+.home-active-nav,
+.create-active-nav,
+.list-active-nav {
     height: 40px;
     width: 40px;
     background-size: contain;
@@ -30,10 +32,22 @@
     background-image: url(/public/image/home.png);
 }
 
+.home-active-nav {
+    background-image: url(/public/image/home-active.png);
+}
+
 .create-nav {
     background-image: url(/public/image/square-plus.png);
 }
 
+.create-active-nav {
+    background-image: url(/public/image/square-plus-active.png);
+}
+
 .list-nav {
     background-image: url(/public/image/rectangle-list.png);
+}
+
+.list-active-nav {
+    background-image: url(/public/image/rectangle-list-active.png);
 }

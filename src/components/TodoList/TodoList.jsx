@@ -1,27 +1,115 @@
 import React from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleTodo, deleteTodo } from '../../redux/actions/todoActions';
-import { Check, Trash2 } from 'lucide-react';
+import { toggleTodo, deleteTodo, setFilterDate, clearFilterDate } from '../../redux/actions/todoActions';
+import { Check, Trash2, X } from 'lucide-react';
+import WeeklyCalendar from './WeeklyCalender';
+import CalendarModal from './CalendarModel';
+import { LuCalendarSearch } from "react-icons/lu";
+
 
 const TodoList = () => {
   const todos = useSelector(state => state.todos);
+  const filterDate = useSelector(state => state.filterDate);
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+  const bgColors = [
+    'bg-pink-100',
+    'bg-blue-100',
+    'bg-green-100',
+    'bg-purple-100',
+    'bg-yellow-100',
+    'bg-orange-100',
+    'bg-teal-100',
+    'bg-indigo-100'
+  ];
 
   console.log(todos)
+
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleDateSelect = (date) => {
+    dispatch(setFilterDate(date));
+  };
+
+  const handleClearFilter = () => {
+    dispatch(clearFilterDate());
+  };
 
   const formatTime = (time) => {
     return time ? new Date(`2000-01-01T${time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
   };
 
+  const getRandomColor = (index) => {
+    // Sử dụng index của todo để lấy màu, đảm bảo mỗi todo giữ nguyên màu khi re-render
+    return bgColors[index % bgColors.length];
+  };
+
+  const filteredTodos = todos.filter(todo => {
+    if (!filterDate) return true;
+
+    const todoDate = new Date(todo.date);
+    return (
+      todoDate.getFullYear() === filterDate.getFullYear() &&
+      todoDate.getMonth() === filterDate.getMonth() &&
+      todoDate.getDate() === filterDate.getDate()
+    );
+  });
+
   return (
-    <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-4">Todo List</h2>
-      {todos.length === 0 ? (
-        <p className="text-gray-500">No todos yet. Add a new task above!</p>
+    <div>
+      <div className="grid grid-cols-2 gap-6">
+        <h2 className="text-3xl font-bold mb-4">Todo List</h2>
+        <div className="flex justify-end items-center space-x-4">
+
+          <button
+            onClick={openModal}
+            className="px-4 pb-3 text-sky-400 rounded-lg w-17"
+          >
+            <LuCalendarSearch size={40} />
+          </button>
+        </div>
+      </div>
+
+      <CalendarModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        onDateSelect={handleDateSelect}
+      />
+      <WeeklyCalendar />
+      <div className="grid grid-cols-3  mt-6">
+        <h3 className="text-xl ">Task:</h3>
+        {filterDate && (
+          <div className="flex items-center bg-sky-100 px-2 py-2 rounded-lg col-span-2">
+            <span className="text-sky-700 mr-6">
+              Filtered by: {filterDate.toDateString()}
+            </span>
+            <button
+              onClick={handleClearFilter}
+              className="text-sky-700 hover:text-sky-900"
+            >
+              <X size={20} />
+            </button>
+          </div>
+        )}
+      </div>
+      {filteredTodos.length === 0 ? (
+        <p className="text-gray-500">
+          {filterDate
+            ? `No todos found for ${filterDate.toDateString()}`
+            : 'No todos yet. Add a new task above!'}
+        </p>
       ) : (
-        <ul className="space-y-4">
-          {todos.map(todo => (
-            <li key={todo.id} className={`bg-sky-100 rounded-lg shadow-md p-4 ${todo.completed ? 'opacity-50' : ''}`}>
+        <ul className="space-y-8 h-[600px] overflow-y-auto px-4 py-4">
+          {filteredTodos.map((todo, index) => (
+            <li key={index} className={`${getRandomColor(index)} rounded-3xl p-4 hover:shadow-lg ${todo.completed ? 'opacity-50' : ''}`}>
               <div className="flex items-center justify-between mb-2">
                 <h3 className={`text-xl font-semibold ${todo.completed ? 'line-through' : ''}`}>{todo.title}</h3>
                 <div className="flex items-center space-x-2">
@@ -32,7 +120,7 @@ const TodoList = () => {
                     <Check size={20} className={todo.completed ? 'text-white' : 'text-gray-500'} />
                   </button>
                   <button
-                    onClick={() => dispatch(deleteTodo(todo.id))}
+                    onClick={() => dispatch(deleteTodo(todo))}
                     className="text-red-500 hover:text-red-700"
                   >
                     <Trash2 size={25} />

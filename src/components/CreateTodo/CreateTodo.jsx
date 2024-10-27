@@ -38,7 +38,7 @@ const CreateTodo = () => {
 
     return (
         <form onSubmit={handleSubmit} className="container mb-4">
-            <h2 className="text-2xl font-bold mb-4">Create New Task</h2>
+            <h1 className="text-3xl font-bold mb-4">Create New Task</h1>
             <label className="block text-gray-500 font-medium mb-2">Title</label>
             <input
                 type="text"
@@ -105,7 +105,7 @@ const CreateTodo = () => {
                 <option value="UI Design">UI Design</option>
                 <option value="HTML">HTML</option>
             </select>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-6">
                 <button type="submit" className="bg-sky-500 text-white text-xl p-2 rounded-xl w-8/12 h-12 font-bold hover:bg-sky-500 active:bg-sky-700 focus:outline-none focus:ring focus:ring-offset-indigo-300">Create New Task</button>
             </div>
         </form>

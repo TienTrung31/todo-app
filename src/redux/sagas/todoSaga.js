@@ -5,8 +5,9 @@ import { FETCH_TODOS, fetchTodosSuccess, fetchTodosFailure } from '../actions/to
 const fetchTodosApi = () =>
     new Promise((resolve) =>
         setTimeout(() => resolve([
-            { id: 1, title: 'Học React', date: '2024-10-20', startTime: '09:00', endTime: '11:00', description: 'Học cơ bản về React', category: 'Dev', completed: false },
-            { id: 2, title: 'Học Redux Saga', date: '2024-10-21', startTime: '14:00', endTime: '16:00', description: 'Tìm hiểu về Redux Saga', category: 'Dev', completed: false },
+            { id: 0, title: 'Học React', date: '2024-10-20', startTime: '09:00', endTime: '11:00', description: 'Học cơ bản về React', category: 'Dev', completed: false },
+            { id: 1, title: 'Học Redux Saga', date: '2024-10-21', startTime: '14:00', endTime: '16:00', description: 'Tìm hiểu về Redux Saga', category: 'Dev', completed: false },
+            { id: 2, title: 'Học Design', date: '2024-10-19', startTime: '15:00', endTime: '12:00', description: 'Nguyên tắc khi thiết kế UI/UX ', category: 'UI Design', completed: false },
         ]), 1000)
     );
 
