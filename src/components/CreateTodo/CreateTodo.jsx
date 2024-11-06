@@ -25,6 +25,8 @@ const CreateTodo = () => {
         e.preventDefault();
         if (todo.title.trim()) {
             dispatch(addTodo(todo));
+
+            // Reset form
             setTodo({
                 title: '',
                 date: '',

@@ -20,7 +20,7 @@ const CalendarModal = ({ isOpen, onClose, onDateSelect }) => {
         <div>
             {/* Modal Backdrop */}
             {isOpen && (
-                <div className=" fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4">
+                <div className=" fixed inset-0 z-10 bg-black bg-opacity-70 flex items-center justify-center p-4">
                     {/* Modal Content */}
                     <div className="bg-white rounded-lg w-full max-w-md relative">
                         {/* Modal Header */}

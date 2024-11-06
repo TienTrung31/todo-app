@@ -6,13 +6,14 @@ import { Check, Trash2, X } from 'lucide-react';
 import WeeklyCalendar from './WeeklyCalender';
 import CalendarModal from './CalendarModel';
 import { LuCalendarSearch } from "react-icons/lu";
-
+import TodoDetail from '../TodoDetail/TodoDetail';
 
 const TodoList = () => {
   const todos = useSelector(state => state.todos);
   const filterDate = useSelector(state => state.filterDate);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState(null);
   const bgColors = [
     'bg-pink-100',
     'bg-blue-100',
@@ -25,7 +26,6 @@ const TodoList = () => {
   ];
 
   console.log(todos)
-
 
   const openModal = () => {
     setIsOpen(true);
@@ -41,6 +41,14 @@ const TodoList = () => {
 
   const handleClearFilter = () => {
     dispatch(clearFilterDate());
+  };
+
+  const handleTodoClick = (todo) => {
+    setSelectedTodo(todo);
+  };
+
+  const handleBackToList = () => {
+    setSelectedTodo(null);
   };
 
   const formatTime = (time) => {
@@ -71,7 +79,7 @@ const TodoList = () => {
 
           <button
             onClick={openModal}
-            className="px-4 pb-3 text-sky-400 rounded-lg w-17"
+            className=" pb-3 text-sky-400 rounded-lg w-17"
           >
             <LuCalendarSearch size={40} />
           </button>
@@ -84,8 +92,9 @@ const TodoList = () => {
         onDateSelect={handleDateSelect}
       />
       <WeeklyCalendar />
+
       <div className="grid grid-cols-3  mt-6">
-        <h3 className="text-xl ">Task:</h3>
+        <h3 className="text-xl font-bold ">Task:</h3>
         {filterDate && (
           <div className="flex items-center bg-sky-100 px-2 py-2 rounded-lg col-span-2">
             <span className="text-sky-700 mr-6">
@@ -100,16 +109,21 @@ const TodoList = () => {
           </div>
         )}
       </div>
+
       {filteredTodos.length === 0 ? (
-        <p className="text-gray-500">
+        <p className="text-gray-500 pt-3">
           {filterDate
             ? `No todos found for ${filterDate.toDateString()}`
             : 'No todos yet. Add a new task above!'}
         </p>
       ) : (
-        <ul className="space-y-8 h-[600px] overflow-y-auto px-4 py-4">
+        <ul className="space-y-7 h-[600px] overflow-y-auto px-4 py-4">
           {filteredTodos.map((todo, index) => (
-            <li key={index} className={`${getRandomColor(index)} rounded-3xl p-4 hover:shadow-lg ${todo.completed ? 'opacity-50' : ''}`}>
+            <li
+              key={index}
+              className={`${getRandomColor(index)} rounded-3xl p-4 hover:shadow-lg ${todo.completed ? 'opacity-50' : ''}`}
+              onClick={() => handleTodoClick(todo)}
+            >
               <div className="flex items-center justify-between mb-2">
                 <h3 className={`text-xl font-semibold ${todo.completed ? 'line-through' : ''}`}>{todo.title}</h3>
                 <div className="flex items-center space-x-2">
@@ -117,7 +131,10 @@ const TodoList = () => {
                     onClick={() => dispatch(toggleTodo(todo.id))}
                     className={`p-1 rounded-full ${todo.completed ? 'bg-green-500' : 'bg-gray-200'}`}
                   >
-                    <Check size={20} className={todo.completed ? 'text-white' : 'text-gray-500'} />
+                    <Check
+                      size={20}
+                      className={todo.completed ? 'text-white' : 'text-gray-500'}
+                    />
                   </button>
                   <button
                     onClick={() => dispatch(deleteTodo(todo))}
@@ -129,13 +146,22 @@ const TodoList = () => {
               </div>
               <div className="text-sm text-gray-600">
                 <p><strong>Date:</strong> {todo.date}</p>
-                <p><strong>Time:</strong> {formatTime(todo.startTime)} - {formatTime(todo.endTime)}</p>
+                {/* <p><strong>Time:</strong> {formatTime(todo.startTime)} - {formatTime(todo.endTime)}</p> */}
                 <p><strong>Category:</strong> <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded-full text-xs">{todo.category}</span></p>
               </div>
-              <p className="mt-2 text-gray-700">{todo.description}</p>
+              {/* <p className="mt-2 text-gray-700">{todo.description}</p> */}
             </li>
           ))}
         </ul>
+      )}
+
+      {selectedTodo && (
+        <div className="fixed top-0 left-0 bg-white shadow-lg w-full h-full p-4">
+          <TodoDetail
+            todo={selectedTodo}
+            onBack={handleBackToList}
+          />
+        </div>
       )}
     </div>
   );

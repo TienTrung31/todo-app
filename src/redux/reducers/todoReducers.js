@@ -1,10 +1,11 @@
 import {
-    ADD_TODO,
-    DELETE_TODO,
-    TOGGLE_TODO,
     FETCH_TODOS_SUCCESS,
     SET_FILTER_DATE,
-    CLEAR_FILTER_DATE
+    CLEAR_FILTER_DATE,
+    ADD_TODO_SUCCESS,
+    DELETE_TODO_SUCCESS,
+    TOGGLE_TODO_SUCCESS,
+    UPDATE_TODO_SUCCESS
 } from '../actions/todoActions'
 
 const initialState = {
@@ -14,27 +15,35 @@ const initialState = {
 
 const todoReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_TODO:
+        case ADD_TODO_SUCCESS:
             return {
                 ...state,
-                todos: [...state.todos, {
-                    id: Date.now(),
-                    ...action.payload
-                }]
+                todos: [...state.todos, action.payload]
             };
 
-        case DELETE_TODO:
+        case DELETE_TODO_SUCCESS:
             return {
                 ...state,
                 todos: state.todos.filter(todo => todo !== action.payload)
             };
 
-        case TOGGLE_TODO:
+        case TOGGLE_TODO_SUCCESS:
             return {
                 ...state,
-                todos: state.todos.map(todo => todo.id === action.payload ? {
-                    ...todo, completed: !todo.completed
-                } : todo
+                todos: state.todos.map(todo =>
+                    todo.id === action.payload
+                        ? { ...todo, completed: !todo.completed }
+                        : todo
+                )
+            };
+
+        case UPDATE_TODO_SUCCESS:
+            return {
+                ...state,
+                todos: state.todos.map(todo =>
+                    todo.id === action.payload.id
+                        ? { ...todo, ...action.payload }
+                        : todo
                 )
             };
 
