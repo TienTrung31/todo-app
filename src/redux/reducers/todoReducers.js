@@ -24,7 +24,7 @@ const todoReducer = (state = initialState, action) => {
         case DELETE_TODO_SUCCESS:
             return {
                 ...state,
-                todos: state.todos.filter(todo => todo !== action.payload)
+                todos: state.todos.filter(todo => todo.id !== action.payload)
             };
 
         case TOGGLE_TODO_SUCCESS:

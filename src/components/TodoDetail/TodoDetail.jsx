@@ -54,7 +54,7 @@ const TodoDetail = ({ todo, onBack }) => {
                         name="date"
                         value={editedTodo.date}
                         onChange={handleInputChange}
-                        className="w-40 p-2 border-gray-300 rounded-2xl shadow-md focus:border-blue-500 focus:ring-blue-500 disabled:bg-sky-50 disabled:text-gray-500"
+                        className="w-40 px-2 py-1 border-gray-300 rounded-2xl shadow-md disabled:bg-sky-50 disabled:text-gray-500"
                         disabled={!isEditing}
                     />
                 </div>
@@ -66,7 +66,7 @@ const TodoDetail = ({ todo, onBack }) => {
                             name="startTime"
                             value={editedTodo.startTime || ''}
                             onChange={handleInputChange}
-                            className="w-full p-2 border-gray-300 rounded-2xl shadow-md focus:border-blue-500 focus:ring-blue-500 disabled:bg-sky-50 disabled:text-gray-500"
+                            className="w-full px-2 py-1 border-gray-300 rounded-2xl shadow-md disabled:bg-sky-50 disabled:text-gray-500"
                             disabled={!isEditing}
                         />
                         <input
@@ -74,7 +74,7 @@ const TodoDetail = ({ todo, onBack }) => {
                             name="endTime"
                             value={editedTodo.endTime || ''}
                             onChange={handleInputChange}
-                            className="w-full p-2 border-gray-300 rounded-2xl shadow-md focus:border-blue-500 focus:ring-blue-500 disabled:bg-sky-50 disabled:text-gray-500"
+                            className="w-full px-2 py-1 border-gray-300 rounded-2xl shadow-md disabled:bg-sky-50 disabled:text-gray-500"
                             disabled={!isEditing}
                         />
                     </div>
@@ -82,12 +82,13 @@ const TodoDetail = ({ todo, onBack }) => {
             </div>
             <div>
                 <label className="block text-gray-500 font-medium mb-2">Description</label>
+
                 <textarea
                     name="description"
                     value={editedTodo.description || ''}
                     onChange={handleInputChange}
-                    className="w-full p-3 border-gray-300 rounded-2xl shadow-md focus:border-blue-500 focus:ring-blue-500 disabled:bg-sky-50 disabled:text-gray-500"
-                    rows={20}
+                    className="w-full text-lg p-3 border-gray-300 rounded-2xl shadow-md disabled:bg-sky-50 disabled:text-gray-500"
+                    rows={15}
                     disabled={!isEditing}
                 />
             </div>

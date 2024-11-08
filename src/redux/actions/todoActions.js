@@ -43,9 +43,9 @@ export const deleteTodo = (id) => ({
     payload: id
 });
 
-export const deleteTodoSuccess = (todo) => ({
+export const deleteTodoSuccess = (id) => ({
     type: DELETE_TODO_SUCCESS,
-    payload: todo
+    payload: id
 });
 
 export const deleteTodoFailure = (error) => ({

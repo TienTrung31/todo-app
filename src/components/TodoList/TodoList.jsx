@@ -1,19 +1,23 @@
 import React from 'react';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleTodo, deleteTodo, setFilterDate, clearFilterDate } from '../../redux/actions/todoActions';
+import { toggleTodo, setFilterDate, deleteTodo, clearFilterDate } from '../../redux/actions/todoActions';
 import { Check, Trash2, X } from 'lucide-react';
 import WeeklyCalendar from './WeeklyCalender';
 import CalendarModal from './CalendarModel';
 import { LuCalendarSearch } from "react-icons/lu";
+import ConfirmModal from './ConfimModal';
 import TodoDetail from '../TodoDetail/TodoDetail';
 
 const TodoList = () => {
   const todos = useSelector(state => state.todos);
   const filterDate = useSelector(state => state.filterDate);
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
+  const [showCalendarModal, setCalendarModal] = useState(false);
+  // const [showConfirmModal, setConfirmModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
+  //const [todoToDelete, setTodoToDelete] = useState(null);
+
   const bgColors = [
     'bg-pink-100',
     'bg-blue-100',
@@ -27,14 +31,6 @@ const TodoList = () => {
 
   console.log(todos)
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
   const handleDateSelect = (date) => {
     dispatch(setFilterDate(date));
   };
@@ -46,6 +42,12 @@ const TodoList = () => {
   const handleTodoClick = (todo) => {
     setSelectedTodo(todo);
   };
+
+  /* const handleTrashClick = (todo) => {
+    setTodoToDelete(todo);
+    console.log('2', todoToDelete)
+    setConfirmModal(true);
+  }; */
 
   const handleBackToList = () => {
     setSelectedTodo(null);
@@ -78,7 +80,7 @@ const TodoList = () => {
         <div className="flex justify-end items-center space-x-4">
 
           <button
-            onClick={openModal}
+            onClick={() => setCalendarModal(true)}
             className=" pb-3 text-sky-400 rounded-lg w-17"
           >
             <LuCalendarSearch size={40} />
@@ -87,8 +89,8 @@ const TodoList = () => {
       </div>
 
       <CalendarModal
-        isOpen={isOpen}
-        onClose={closeModal}
+        isOpen={showCalendarModal}
+        onClose={() => setCalendarModal(false)}
         onDateSelect={handleDateSelect}
       />
       <WeeklyCalendar />
@@ -122,11 +124,19 @@ const TodoList = () => {
             <li
               key={index}
               className={`${getRandomColor(index)} rounded-3xl p-4 hover:shadow-lg ${todo.completed ? 'opacity-50' : ''}`}
-              onClick={() => handleTodoClick(todo)}
+
             >
-              <div className="flex items-center justify-between mb-2">
-                <h3 className={`text-xl font-semibold ${todo.completed ? 'line-through' : ''}`}>{todo.title}</h3>
-                <div className="flex items-center space-x-2">
+              <div className="flex justify-between items-center w-full" >
+                <div className="flex-1" onClick={() => handleTodoClick(todo)}>
+                  <h3 className={`text-xl font-semibold ${todo.completed ? 'line-through' : ''}`}>{todo.title}</h3>
+                  <div className="text-sm text-gray-600 mt-1">
+                    <p><strong>Date:</strong> {todo.date}</p>
+                    <p><strong>Time:</strong> {formatTime(todo.startTime)} - {formatTime(todo.endTime)}</p>
+                    <p><strong>Category:</strong> <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded-full text-xs">{todo.category}</span></p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-end space-y-10">
                   <button
                     onClick={() => dispatch(toggleTodo(todo.id))}
                     className={`p-1 rounded-full ${todo.completed ? 'bg-green-500' : 'bg-gray-200'}`}
@@ -137,18 +147,16 @@ const TodoList = () => {
                     />
                   </button>
                   <button
-                    onClick={() => dispatch(deleteTodo(todo))}
+                    onClick={() => dispatch(deleteTodo(todo.id))}
                     className="text-red-500 hover:text-red-700"
                   >
                     <Trash2 size={25} />
                   </button>
                 </div>
+
               </div>
-              <div className="text-sm text-gray-600">
-                <p><strong>Date:</strong> {todo.date}</p>
-                {/* <p><strong>Time:</strong> {formatTime(todo.startTime)} - {formatTime(todo.endTime)}</p> */}
-                <p><strong>Category:</strong> <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded-full text-xs">{todo.category}</span></p>
-              </div>
+
+
               {/* <p className="mt-2 text-gray-700">{todo.description}</p> */}
             </li>
           ))}
@@ -163,6 +171,12 @@ const TodoList = () => {
           />
         </div>
       )}
+
+      {/* <ConfirmModal
+        isOpen={showConfirmModal}
+        onClose={() => setConfirmModal(false)}
+        todoToDelete={todoToDelete}
+      /> */}
     </div>
   );
 };
