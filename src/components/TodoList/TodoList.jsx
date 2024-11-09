@@ -14,9 +14,9 @@ const TodoList = () => {
   const filterDate = useSelector(state => state.filterDate);
   const dispatch = useDispatch();
   const [showCalendarModal, setCalendarModal] = useState(false);
-  // const [showConfirmModal, setConfirmModal] = useState(false);
+  const [showConfirmModal, setConfirmModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
-  //const [todoToDelete, setTodoToDelete] = useState(null);
+  const [todoToDelete, setTodoToDelete] = useState(null);
 
   const bgColors = [
     'bg-pink-100',
@@ -43,11 +43,10 @@ const TodoList = () => {
     setSelectedTodo(todo);
   };
 
-  /* const handleTrashClick = (todo) => {
+  const handleTrashClick = (todo) => {
     setTodoToDelete(todo);
-    console.log('2', todoToDelete)
     setConfirmModal(true);
-  }; */
+  };
 
   const handleBackToList = () => {
     setSelectedTodo(null);
@@ -147,7 +146,7 @@ const TodoList = () => {
                     />
                   </button>
                   <button
-                    onClick={() => dispatch(deleteTodo(todo.id))}
+                    onClick={() => handleTrashClick(todo)}
                     className="text-red-500 hover:text-red-700"
                   >
                     <Trash2 size={25} />
@@ -172,11 +171,11 @@ const TodoList = () => {
         </div>
       )}
 
-      {/* <ConfirmModal
+      <ConfirmModal
         isOpen={showConfirmModal}
         onClose={() => setConfirmModal(false)}
         todoToDelete={todoToDelete}
-      /> */}
+      />
     </div>
   );
 };

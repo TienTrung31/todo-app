@@ -12,7 +12,7 @@ const ConfirmModal = ({ isOpen, onClose, todoToDelete }) => {
     if (!isOpen) return null;
 
     const handleDeleteTodo = () => {
-        dispatch(deleteTodo(todoToDelete));
+        dispatch(deleteTodo(todoToDelete.id));
         onClose();
     }
 
